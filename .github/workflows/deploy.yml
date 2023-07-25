@@ -10,13 +10,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Use Node.js 16
-      uses: actions/setup-node@v2
-      with:
-        node-version: '16'
-        
     - name: Checkout repository
       uses: actions/checkout@v2
+
+    - name: Use Node.js 16
+      uses: actions/setup-node@v2.5.3
+      with:
+        node-version: '16'
 
     - name: Deploy to S3
       uses: jakejarvis/s3-sync-action@v0.5.1
