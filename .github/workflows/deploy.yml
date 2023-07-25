@@ -13,19 +13,12 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Configure AWS Credentials
-      run: |
-        echo "[default]" >> $HOME/.aws/credentials
-        echo "aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}" >> $HOME/.aws/credentials
-        echo "aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> $HOME/.aws/credentials
-
-    - name: Install AWS CLI
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y awscli
-
     - name: Deploy to S3
-      run: |
-        aws s3 sync . s3://http://ishmael-personal-website.s3-website.us-east-2.amazonaws.com/ --acl public-read --follow-symlinks --delete
+      uses: jakejarvis/s3-sync-action@v0.5.1
+      with:
+        args: --acl public-read --follow-symlinks --delete
       env:
-        AWS_DEFAULT_REGION: us-east-2  # Replace with your AWS region
+        AWS_S3_BUCKET_URL: s3://http://ishmael-personal-website.s3-website.us-east-2.amazonaws.com/  # Replace with your S3 bucket URL
+        AWS_REGION: us-east-2  # Replace with your AWS region
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
