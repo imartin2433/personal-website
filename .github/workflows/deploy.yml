@@ -13,6 +13,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Clear GitHub Actions cache
+      run: |
+        sudo apt-get remove actions/cache -y
+        sudo apt-get autoremove -y
+        sudo rm -rf /usr/share/dotnet/sdk/NuGetFallbackFolder/*
+        sudo rm -rf /usr/share/dotnet/sdk/5.0.1/NuGetFallbackFolder/*
+        sudo rm -rf /usr/share/dotnet/sdk/6.0.1/NuGetFallbackFolder/*
+      if: runner.os == 'Linux'
+
     - name: Checkout repository
       uses: actions/checkout@v2
 
