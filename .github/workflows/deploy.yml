@@ -23,11 +23,18 @@ jobs:
       with:
         node-version: '16'
 
-    - name: Install dependencies
-      run: npm install
-      working-directory: ./personal-website  # Replace with the correct relative directory containing package.json
+    - name: Install AWS CLI
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y python3-pip
+        pip3 install awscli --upgrade --user
+
+    - name: Configure AWS CLI
+      run: |
+        aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws configure set region ${{ env.AWS_REGION }}
 
     - name: Deploy to S3
       run: |
-        aws s3 sync . s3://your-bucket-name --acl public-read --follow-symlinks --delete
-      working-directory: ./personal-website  # Replace with the correct relative directory containing package.json
+        aws s3 sync . s3://ishmael-personal-website --delete
