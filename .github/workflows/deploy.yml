@@ -29,5 +29,5 @@ jobs:
 
     - name: Deploy to S3
       run: |
-        aws s3 sync . s3://your-bucket-name --acl public-read --follow-symlinks --delete
+        aws s3 sync . s3://ishmael-personal-website --acl public-read --follow-symlinks --delete
       working-directory: ./personal-website  # Replace with the correct relative directory containing package.json
